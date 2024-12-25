@@ -1,5 +1,5 @@
-from flask import Flask, request
-import requests
+from flask import Flask, jsonify, request
+import requests  # You need to import requests
 
 app = Flask(__name__)
 
@@ -9,6 +9,10 @@ PHONE_NUMBER_ID = "YOUR_PHONE_NUMBER_ID"  # Replace with your WhatsApp Business 
 
 # Predefined message
 PREDEFINED_MESSAGE = "Welcome! I can help you with movie details. Reply with the name of a movie, and I'll assist you."
+
+@app.route('/')
+def home():
+    return jsonify({"message": "WhatsApp Bot is Running!"})
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -37,6 +41,5 @@ def send_whatsapp_message(to, message):
     requests.post(url, json=payload, headers=headers)
 
 if __name__ == '__main__':
+    print("Starting WhatsApp Bot...")
     app.run(port=5000, debug=True)
-print("Starting WhatsApp Bot...")
-app.run(port=5000, debug=True)
